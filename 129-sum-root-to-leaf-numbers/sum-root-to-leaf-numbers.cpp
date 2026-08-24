@@ -11,20 +11,33 @@
  */
 class Solution {
 public:
-    void dfs(TreeNode* root, int cn, int &sum){
-        if(root==NULL)
-        return;
-        cn=cn*10+(root->val);
-        if(root->left==NULL && root->right==NULL){
-            sum+=cn;
-        }
-        dfs(root->left,cn,sum);
-        dfs(root->right,cn,sum);
-    }
+    
     int sumNumbers(TreeNode* root) {
+        if(root==NULL){
+            return 0;
+        }
         int sum=0;
-        dfs(root,0,sum);
+        stack<pair<TreeNode*, int>>st;
+        st.push({root,0});
+        while(!st.empty()){
+            pair<TreeNode*, int> p = st.top();
+            st.pop();
+            TreeNode *node=p.first;
+            int cn=p.second;
+            cn=cn*10+node->val;
+            if(node->left==NULL && node->right==NULL){
+                sum+=cn;
+            }
+            if(node->left!=NULL)
+            st.push({node->left,cn});
+            if(node->right!=NULL)
+            st.push({node->right,cn});
+
+            
+        }
         return sum;
+
+
         
     }
 };
